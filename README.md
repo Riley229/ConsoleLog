@@ -44,7 +44,7 @@ To use, start by creating a `ConsoleLogger` to send your messages to:
 let log = ConsoleLogger(label:"default")
 ```
 
-Now, all you have to do is log a message:
+Now, simply log a message:
 
 ```swift
 log.warning("Hello, world!")
@@ -55,7 +55,7 @@ which outputs:
 
 ### Log levels
 
-The following `LogLevel`s are supported:
+The following log levels are supported:
 - `trace`
 - `debug`
 - `info`
@@ -64,7 +64,7 @@ The following `LogLevel`s are supported:
 - `error`
 - `critical`
 
-To only make certain log levels print to the console, simply change the level on the `ConsoleLogger`.  Any message below the specified `LogLevel` will not be printed to the console.  For example:
+To only make certain log levels print to the console, simply change the level on the `ConsoleLogger`.  Any message below the specified level will not be printed to the console.  For example:
 
 ```swift
 log.level = .info
@@ -74,14 +74,9 @@ log.level = .info
 
 If you are intrested in contributing, first read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-### Step 1
-Fork this repo
-
-### Step 2
-Hack away and don't forget to add yourself to [CONTRIBUTORS.md](CONTRIBUTORS.md].
-
-### Step 3
-Create a new pull request.
+1. Fork this repo
+2. Hack away and don't forget to add yourself to [CONTRIBUTORS.md](CONTRIBUTORS.md).
+3. Create a new pull request.
 
 ## License
 
