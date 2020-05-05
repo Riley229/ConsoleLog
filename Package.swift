@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "ConsoleLog",
     products: [
-      .library(name: "ConsoleLog", type: .dynamic, targets: ["ConsoleLog"])
+      .library(name: "ConsoleLog", targets: ["ConsoleLog"])
     ],
     targets: [
       .target(name: "ConsoleLog")
