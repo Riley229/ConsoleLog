@@ -25,7 +25,7 @@ public class ConsoleLogger {
                 } else {
                     lastLogCount! += 1
                 }
-                print(ANSICode.cursorUp(1) + log.description + " (x\(lastLogCount!))")
+                print(ANSI.cursorUp(1) + log.description + " (x\(lastLogCount!))")
             } else {
                 logs.insert(log)
                 log.printLog()

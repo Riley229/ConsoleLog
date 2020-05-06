@@ -1,29 +1,27 @@
 # ConsoleLog
 
-_ConsoleLog_ is a light-weight Swift command line tool which replaces simple print statements with intuitive messages.  It utilizes default ANSI commands to make your output easier to read, adjust, and understand.
+**ConsoleLog** is a light-weight Swift command line tool which enables you to use ANSI commands with built in String compatability.  It also features an intuitive command line logging system which replaces simple print statements with easy to read color coded messages and a customizable interface.
 
 ## Table of Contents
 
-- [Setup](#setup-as-a-dependency)
+- [Setup](#setup)
 - [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
 
-## Setup as a Dependency
+## Setup
 
-To use the _ConsoleLog_ library in a SwiftPM project, add the following line to the dependencies in your `Package.swift` file:
+To use the **ConsoleLog** library in a SwiftPM project, add the following line to the dependencies in your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.1.1")
+.package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.0")
 ```
 
-Then, include _ConsoleLog_ as a dependency for your executable target:
+Then, include **ConsoleLog** as a dependency for your executable target:
 
 ```swift
 let package = Package(
     // name, platform, products, etc.
     dependencies: [
-        .package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.1.1")
+        .package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.0")
 	// other dependencies
     ],
     targets: [
@@ -40,8 +38,8 @@ let package = Package(
 To use, start by creating a `ConsoleLogger` to send your messages to:
 
 ```swift
-// The label will have added uses in future versions, for now it just makes the logger easier to identity.
-let log = ConsoleLogger(label:"default")
+// The name will have added uses in future versions, for now it just makes the logger easier to identity.
+let log = ConsoleLogger(name:"default")
 ```
 
 Now, simply log a message:
@@ -53,9 +51,9 @@ log.warning("Hello, world!")
 which outputs:
 ![Image of ConsoleLog Warning Example](Images/ConsoleLogWarningExample.png)
 
-### Log levels
+### Log Categories
 
-The following log levels are supported:
+The following log categories are supported:
 - `trace`
 - `debug`
 - `info`
@@ -64,20 +62,8 @@ The following log levels are supported:
 - `error`
 - `critical`
 
-To only make certain log levels print to the console, simply change the level on the `ConsoleLogger`.  Any message below the specified level will not be printed to the console.  For example:
+To only make certain log categories print to the console, simply change the category on the `ConsoleLogger`.  Any message below the specified category will not be printed to the console.  For example:
 
 ```swift
-log.level = .info
+log.category = .info
 ```
-
-## Contributing
-
-If you are intrested in contributing, first read our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-1. Fork this repo
-2. Hack away and don't forget to add yourself to [CONTRIBUTORS.md](CONTRIBUTORS.md).
-3. Create a new pull request.
-
-## License
-
-This project is licensed under GNU General Public License v3.0 -- see the [LICENSE](LICENSE) file for details.
