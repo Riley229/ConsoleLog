@@ -16,11 +16,11 @@
 
 extension String : ANSIEnabled {
     public func forground(_ color:ANSI.Color) -> String {
-        generate(ANSI.backgroundColor(color))
+        generate(ANSI.forgroundColor(color))
     }
 
     public func background(_ color:ANSI.Color) -> String {
-        generate(ANSI.forgroundColor(color))
+        generate(ANSI.backgroundColor(color))
     }
 
     public func bold() -> String {

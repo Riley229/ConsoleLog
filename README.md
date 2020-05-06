@@ -67,3 +67,7 @@ To only make certain log categories print to the console, simply change the cate
 ```swift
 log.category = .info
 ```
+
+## Using ANSI Commands
+
+Please note, not every ANSI text formatting command works on all operating systems.  Bold, underline, and reversed are the only commands which consistently run across all operating systems at the time being.
