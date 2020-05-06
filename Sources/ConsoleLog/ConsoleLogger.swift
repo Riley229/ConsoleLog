@@ -1,23 +1,23 @@
 public class ConsoleLogger {
-    public let label : String
+    public let name : String
     
-    // Any log below `logLevel` will not be stored or printed to the console.
-    public var level = LogLevel.trace
+    // Any log below `category` will not be stored or printed to the console.
+    public var level = Log.Category.trace
 
-    // Set of all Logs
+    // tracks all Logs sent to `ConsoleLogger`
     var logs : Set<Log> = []
 
-    // Stores most recent log for multiplier
+    // Stores most recent log and log multiplier
     var lastLogCount : Int?
     var lastLog : Log?
 
-    public init(label:String) {
-        self.label = label
+    public init(name:String) {
+        self.name = name
     }
 
-    private func log(level:LogLevel, message:String?, file:String, function:String, line:UInt) {
+    private func log(category:Log.Category, message:String?, file:String, function:String, line:UInt) {
         if level >= self.level {
-            let location = Location(file:file, function:function, line:line)
+            let location = Log.Location(file:file, function:function, line:line)
             let log = Log(message:message, level:level, location:location)
             if log == lastLog {
                 if lastLogCount == nil {
@@ -25,7 +25,7 @@ public class ConsoleLogger {
                 } else {
                     lastLogCount! += 1
                 }
-                print(ANSICursor.up(1) + log.printable() + " (x\(lastLogCount!))")
+                print(ANSICode.cursorUp(1) + log.description + " (x\(lastLogCount!))")
             } else {
                 logs.insert(log)
                 log.printLog()
@@ -42,30 +42,30 @@ public class ConsoleLogger {
     // **************************************************
     
     public func trace(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.trace, message:message, file:file, function:function, line:line)
+        log(category:.trace, message:message, file:file, function:function, line:line)
     }
 
     public func debug(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.debug, message:message, file:file, function:function, line:line)
+        log(category:.debug, message:message, file:file, function:function, line:line)
     }
 
     public func info(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.info, message:message, file:file, function:function, line:line)
+        log(category:.info, message:message, file:file, function:function, line:line)
     }
 
     public func notice(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.notice, message:message, file:file, function:function, line:line)
+        log(category:.notice, message:message, file:file, function:function, line:line)
     }
 
     public func warning(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.warning, message:message, file:file, function:function, line:line)
+        log(category:.warning, message:message, file:file, function:function, line:line)
     }
 
     public func error(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.error, message:message, file:file, function:function, line:line)
+        log(category:.error, message:message, file:file, function:function, line:line)
     }
 
     public func critical(_ message:String? = nil, file:String = #file, function:String = #function, line:UInt = #line) {
-        log(level:.critical, message:message, file:file, function:function, line:line)
+        log(category:.critical, message:message, file:file, function:function, line:line)
     }
 }
