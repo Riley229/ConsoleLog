@@ -30,6 +30,8 @@ public struct ANSI {
         case magenta
         case cyan
         case white
+        // creates an 8-bit color from a number between 0 and 255
+        case custom(UInt8)
         case `default`
         case brightBlack
         case brightRed
@@ -39,8 +41,6 @@ public struct ANSI {
         case brightMagenta
         case brightCyan
         case brightWhite
-        case custom(UInt8)
-        case rgb(UInt8, UInt8, UInt8)
 
         internal var value : String {
             switch self {
@@ -52,6 +52,7 @@ public struct ANSI {
             case .magenta:                           return "5"
             case .cyan:                              return "6"
             case .white:                             return "7"
+            case .custom(let value):                 return "8;5;\(value)"
             case .default:                           return "9"
             case .brightBlack:                       return "0;1"
             case .brightRed:                         return "1;1"
@@ -61,8 +62,6 @@ public struct ANSI {
             case .brightMagenta:                     return "5;1"
             case .brightCyan:                        return "6;1"
             case .brightWhite:                       return "7;1"
-            case .custom(let value):                 return "8;5;\(value)"
-            case .rgb(let red, let green, let blue): return "8;2;\(red);\(green);\(blue)"
             }
         }
         
@@ -79,21 +78,9 @@ public struct ANSI {
         case reset
         case bold
         case faint
-        case italic
-        case underline
-        case blinkSlow
-        case blinkFast
-        case reversed
-        case conceal
-        case strikethrough
-        case underlineDouble  = 21
-        case boldOff          = 22
-        case italicOff        = 23
-        case underlineOff     = 24
-        case blinkOff         = 25
-        case reversedOff      = 27
-        case concealOff       = 28
-        case strikethroughOff = 29
+        case underline = 4
+        case blink
+        case reversed = 7
         
         public var value : Int {
             self.rawValue

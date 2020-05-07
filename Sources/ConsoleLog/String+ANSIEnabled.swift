@@ -31,36 +31,16 @@ extension String : ANSIEnabled {
         generate(ANSI.formatText(.faint))
     }
 
-    public func italic() -> String {
-        generate(ANSI.formatText(.italic))
-    }
-
     public func underline() -> String {
         generate(ANSI.formatText(.underline))
     }
 
-    public func blinkSlow() -> String {
-        generate(ANSI.formatText(.blinkSlow))
-    }
-
-    public func blinkFast() -> String {
-        generate(ANSI.formatText(.blinkFast))
+    public func blink() -> String {
+        generate(ANSI.formatText(.blink))
     }
 
     public func reversed() -> String {
         generate(ANSI.formatText(.reversed))
-    }
-
-    public func conceal() -> String {
-        generate(ANSI.formatText(.conceal))
-    }
-
-    public func strikethrough() -> String {
-        generate(ANSI.formatText(.strikethrough))
-    }
-
-    public func underlineDouble() -> String {
-        generate(ANSI.formatText(.underlineDouble))
     }
 
     // Adds ANSI command and checks for reset at end

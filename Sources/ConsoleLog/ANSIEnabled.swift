@@ -19,12 +19,7 @@ public protocol ANSIEnabled {
     func background(_ color:ANSI.Color) -> Self
     func bold() -> Self
     func faint() -> Self
-    func italic() -> Self
     func underline() -> Self
-    func blinkSlow() -> Self
-    func blinkFast() -> Self
+    func blink() -> Self
     func reversed() -> Self
-    func conceal() -> Self
-    func strikethrough() -> Self
-    func underlineDouble() -> Self
 }
