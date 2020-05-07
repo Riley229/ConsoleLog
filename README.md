@@ -46,7 +46,7 @@ This library breaks ANSI escape codes down into 2 main categories: **Formatting 
 
 #### Formatting Commands
 
-For ease of use, `String` has built-in methods for altering text appearance:
+For ease of use, strings has built-in methods for altering text appearance:
 
 ```swift
 // alters the color of the text when printed to the console
@@ -86,17 +86,17 @@ public enum Color {
 }
 ```
 
-The formatting applied to a `String` is self-contained and will not 'leak' into surrounding strings.  This allows you to easily create complex print statements, for example:
+The formatting applied to a string is self-contained and will not 'leak' into surrounding strings.  This allows you to easily create complex print statements, for example:
 
 ```swift
 print("Hello, ".forground(.brightRed) + "World!".underline().reversed())
 ```
 
-which outputs:
+outputs:
 
 ![ANSI Format Command Example Output](Images/ANSIFormatCommandExampleOutput.png)
 
-Notice how the red color applied to the first `String` don't affect the second `String`.
+Notice how the red color applied to the first string doesn't affect the second strings.
 
 #### Cursor Commands
 
@@ -136,7 +136,7 @@ public enum ErasureRule {
 }
 ```
 
-All of these methods, other than `setCursorPosition`, also have an available static variable which performs the same action, filling in any arguments with `1`, or `.all` for erasure methods.
+All of these methods, other than `setCursorPosition()`, also have an available static variable which performs the same action, filling in any arguments with `1`, or `.all` for erasure methods.
 
 ### Console Logger
 

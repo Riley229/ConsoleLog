@@ -117,8 +117,11 @@ public struct ANSI {
     // ************************************************************
 
     public enum ErasureRule : Int {
+        // erases all content from cursor forwards
         case forward
+        // erases all content from cursor backwards
         case backward
+        // erases all content regardless of cursor position
         case all
 
         internal var value : Int {
