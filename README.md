@@ -13,7 +13,7 @@
    <a href="#release-history">Release History</a>
 </p>
 
-<br>
+---
 
 ## Setup
 
