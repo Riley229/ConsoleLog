@@ -1,14 +1,13 @@
 // swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "ConsoleLog",
+    name: "SwiftANSI",
     products: [
-      .library(name: "ConsoleLog", targets: ["ConsoleLog"])
+      .library(name: "SwiftANSI", targets: ["SwiftANSI"])
     ],
     targets: [
-      .target(name: "ConsoleLog")
+      .target(name: "SwiftANSI")
     ]
 )

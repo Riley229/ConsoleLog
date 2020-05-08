@@ -1,106 +1,65 @@
-# ConsoleLog
+<h4 align="center">
+  <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/SwiftANSILogo.png">
+  <br>
+  A Swift library which provides access to ANSI commands with intuitive and easy to read methods.
+  <br>
+</h4>
 
-**ConsoleLog** is a light-weight Swift command line tool optimized for Linux systems which enables you to use ANSI escape codes with built in String compatability.  It features an intuitive command line logging system which replaces simple print statements with easy to read color coded messages and a customizable interface.
-
-## Table of Contents
-
-- [Setup](#setup)
-- [Documentation](#documentation)
-  - [ANSI Escape Codes](#ansi-escape-codes)
-    - [Formatting Commands](#formatting-commands)
-    - [Cursor Commands](#cursor-commands)
-  - [Console Logger](#console-logger)
-    - [Log Categories](#log-categories)
+<p align="center">
+   <a href="#setup">Setup</a> •
+   <a href="#documentation">Documentation</a> •
+   <a href="#release-history">Release History</a>
+</p>
 
 ## Setup
 
-To use the **ConsoleLog** library in a SwiftPM project, add the following line to the dependencies in your `Package.swift` file:
+**SwiftANSI** is distributed as a library through [Swift Package Manager](https://swift.org/package-manager/).  To use **SwiftANSI**, simply add it as a dependency in your project's `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.1")
-```
+// swift-tools-version:5.1
 
-Then, include **ConsoleLog** as a dependency for your executable target:
+import PackageDescription
 
-```swift
 let package = Package(
-    // name, platform, products, etc.
+    name: "ConsoleLogDemo"
     dependencies: [
-        .package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.1")
-	// other dependencies
+        .package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.2")
     ],
     targets: [
         .target(
-	  name: "ReallyCoolProject",
+	  name: "ConsoleLogDemo",
 	  dependencies: ["ConsoleLog"]),
-	// other targets
     ]
 )
 ```
 
 ## Documentation
 
-### ANSI Escape Codes
+### Text Coloring
 
-This library breaks ANSI escape codes down into 2 main categories: **Formatting Commands** and **Cursor Commands**
+<p align="center">
+  <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/ANSIColors.png">
+</p>
 
-#### Formatting Commands
+ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output ![ANSI Colors Example 1](Images/ANSIColorsExample1.png).  Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce ![ANSI Colors Example 2](Images/ANSIColorsExample2.png).  As color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output ![ANSI Colors Example 3](Images/ANSIColorsExample3.png).
 
-For ease of use, strings has built-in methods for altering text appearance:
+In addition to the traditional 16 color system, **SwiftANSI** also supports 8-bit colors.  To use the custom color palette, use the `color(_:UInt8)` and `onColor(_:UInt8)` methods for forground and background colors respectively.
 
-```swift
-// alters the color of the text when printed to the console
-func forground(_ color:ANSI.Color) -> String
-func background(_ color:ANSI.Color) -> String
+### Text Styling
 
-func bold() -> String
-func faint() -> String
-func underline() -> String
-func blink() -> String
-func reversed() -> String
-```
+Similar to text coloring, text styling is also available as a property to `String`.  To style a text, simply follow the `String` with a style name.  For example, `"text".bold` will produce ![ANSI Style Example 1](Images/ANSIStyleExample1).  Since color and style are both ANSI Attributes, you may also coombine them in a `String`.  For example, `"text".brightYellow.underline` will output ![ANSI Style Example 2](Images/ANSIStyleExample2).
 
-When calling `forground()` or `background()`, you must provide a `Color`:
+These are the available text stylings:
 
-```swift
-public enum Color {
-       case black
-       case red
-       case green
-       case yellow
-       case blue
-       case magenta
-       case cyan
-       case white
-       // creates an 8-bit color from a number between 0 and 255
-       case custom(UInt8)
-       case `default`
-       case brightBlack
-       case brightRed
-       case brightGreen
-       case brightYellow
-       case brightBlue
-       case brightMagenta
-       case brightCyan
-       case brightWhite
-}
-```
+- bold
+- faint
+- underline
+- blink
+- inverse
 
-The formatting applied to a string is self-contained and will not 'leak' into surrounding strings.  This allows you to easily create complex print statements, for example:
+### Cursor Commands
 
-```swift
-print("Hello, ".forground(.brightRed) + "World!".underline().reversed())
-```
-
-outputs:
-
-![ANSI Format Command Example Output](Images/ANSIFormatCommandExampleOutput.png)
-
-Notice how the red color applied to the first string doesn't affect the second strings.
-
-#### Cursor Commands
-
-In addition to altering text appearance, ANSI escape codes allow us to manipulate the position of the cursor during printing.  The `ANSI` class supports numerous static methods that return strings which, when printed, alter the position of the cursor.  These methods include:
+In addition to altering text appearance, ANSI escape codes allow us to manipulate the position of the cursor during printing.  The `ANSICursor` class supports numerous static methods that return strings which, when printed, alter the position of the cursor.  These methods include:
 
 ```swift
 static public func cursorUp(_ lines:Int) -> String
@@ -138,37 +97,10 @@ public enum ErasureRule {
 
 All of these methods, other than `setCursorPosition()`, also have an available static variable which performs the same action, filling in any arguments with `1`, or `.all` for erasure methods.
 
-### Console Logger
+## Release History
 
-To use, start by creating a `ConsoleLogger` to send your messages to:
-
-```swift
-// The name will have added uses in future versions, for now it just makes the logger easier to identity.
-let log = ConsoleLogger(name:"default")
-```
-
-Now, simply log a message:
-
-```swift
-log.warning("Hello, world!")
-```
-
-which outputs:
-![Image of ConsoleLog Warning Example](Images/ConsoleLogWarningExample.png)
-
-#### Log Categories
-
-The following log categories are supported:
-- `trace`
-- `debug`
-- `info`
-- `notice`
-- `warning`
-- `error`
-- `critical`
-
-To only make certain log categories print to the console, simply change the category on the `ConsoleLogger`.  Any message below the specified category will not be printed to the console.  For example:
-
-```swift
-log.category = .info
-```
+- 0.2.2: Outsourced logging functionality to another library and made `String` methods more declarative in syntax
+- 0.2.1: Removed functionality not operable on Ubuntu systems and updated documentation
+- 0.2.0: Redesigned ANSI Interface and updated documentation
+- 0.1.1: Corrected issue with `Package.swift`
+- 0.1.0: Initial release

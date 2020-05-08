@@ -14,12 +14,9 @@
  */
 
 
-public protocol ANSIEnabled {
-    func forground(_ color:ANSI.Color) -> Self
-    func background(_ color:ANSI.Color) -> Self
-    func bold() -> Self
-    func faint() -> Self
-    func underline() -> Self
-    func blink() -> Self
-    func reversed() -> Self
+internal extension UInt8 {
+    // allows us to make `bright` colors for formatting text
+    var brighten : String {
+        "\(self);1"
+    }
 }
