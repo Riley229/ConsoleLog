@@ -1,8 +1,9 @@
-<h4 align="center">
+<p align="center">
   <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/SwiftANSILogo.png">
-  <br>
+</p>
+
+<h4 align="center">
   A Swift library which provides access to ANSI commands with intuitive and easy to read methods.
-  <br>
   <br>
 </h4>
 
