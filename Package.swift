@@ -5,12 +5,13 @@ import PackageDescription
 let package = Package(
     name: "SwiftANSI",
     products: [
-      .library(name: "ANSIStyle", targets: ["ANSIStyle"]),
-      .library(name: "ANSICursor", targets: ["ANSICursor"]),
-      .library(name: "SwiftANSI", targets: ["ANSIStyle", "ANSICursor"])
+      .library(name: "ANSIStyle", targets: ["Style"]),
+      .library(name: "ANSICursor", targets: ["Cursor"]),
+      .library(name: "SwiftANSI", targets: ["Style", "Cursor"])
     ],
     targets: [
-      .target(name: "ANSIStyle", path: "Sources/Style"),
-      .target(name: "ANSICursor", path: "Sources/Cursor")
+      .target(name: "Style", dependencies: ["ANSICore"]),
+      .target(name: "Cursor", dependencies: ["ANSICore"]),
+      .target(name: "ANSICore")
     ]
 )

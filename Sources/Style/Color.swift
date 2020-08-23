@@ -13,7 +13,10 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// Handles text coloring.
+import ANSICore
+
+/// Handles text color codes.
+/// - SeeAlso: Custom colors are handled in StringExtension.
 enum Color: UInt8 {
     case black     = 0
     case red       = 1
@@ -26,23 +29,23 @@ enum Color: UInt8 {
     /// System default color.
     case `default` = 9
 
-    /// Calculates the forground color code.
-    var forground: UInt8 {
-        rawValue + 30
+    /// The forground color code.
+    var forground: String {
+        csi + "\(rawValue + 30)m"
     }
 
-    /// Calculates the backgorund color code.
-    var background: UInt8 {
-        rawValue + 40
+    /// The backgorund color code.
+    var background: String {
+        csi + "\(rawValue + 40)m"
     }
 
-    /// Calculates the bright forground color code.
-    var brightForground: UInt8 {
-        rawValue + 90
+    /// The bright forground color code.
+    var brightForground: String {
+        csi + "\(rawValue + 90)m"
     }
 
-    /// Calculates the bright background color code.
-    var brightBackground: UInt8 {
-        rawValue + 100
+    /// The bright background color code.
+    var brightBackground: String {
+        csi + "\(rawValue + 100)m"
     }
 }

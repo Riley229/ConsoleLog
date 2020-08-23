@@ -13,21 +13,5 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ANSICore
-
-/// Handles text attribute codes.
-enum Attribute: UInt8 {
-    /// System default text style.
-    case `default` = 0
-    case bold      = 1
-    case faint     = 2
-    case italic    = 3
-    case underline = 4
-    case blink     = 5
-    case inverse   = 7
-
-    /// The ANSI attribute code.
-    var ansiCode: String {
-        csi + "\(rawValue)m"
-    }
-}
+public let esc = Character("\u{1B}")  // escape unicode
+public let csi = "\(esc)[" // control sequence introducer

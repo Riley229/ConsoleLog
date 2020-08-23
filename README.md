@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/SwiftANSILogo.png">
+  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/Logo.png">
 </p>
 
 <h4 align="center">
-  A Swift library which provides access to ANSI commands with intuitive and easy to read methods.
+  A set of lightweight Swift libraries which provide easy access to ANSI commands with declarative syntax.
   <br>
 </h4>
 
@@ -17,57 +17,73 @@
 
 ## Setup
 
-**SwiftANSI** is distributed as a library through [Swift Package Manager](https://swift.org/package-manager/).  To use **SwiftANSI**, simply add it as a dependency in your project's `Package.swift` file:
+**SwiftANSI** is distributed as a library through the [Swift Package Manager](https://swift.org/package-manager/).  To use **SwiftANSI** or any of its modules, simply add it as a dependency in your project's `Package.swift` file:
 
 ```swift
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 
 import PackageDescription
 
 let package = Package(
-    name: "SwiftANSIDemo"
+    name: "Demo"
     dependencies: [
-        .package(url: "https://github.com/Riley229/SwiftANSI.git", from: "0.2.2")
+        .package(url: "https://github.com/Riley229/SwiftANSI.git", from: "0.2.3")
     ],
     targets: [
-        .target(
-	  name: "SwiftANSIDemo",
-	  dependencies: ["SwiftANSI"]),
+        .target(name: "Demo", dependencies: ["SwiftANSI"])
     ]
 )
 ```
 
+If you only want to use one of **SwiftANSI**'s modules, specify the name of the desired module in the targets dependencies:
+
+```swift
+.target(name: "Demo", dependencies: ["ANSIStyle"])
+```
+
 ## Documentation
 
-### Text Coloring
+**SwiftANSI** contains the following modules:
+
+- **ANSIStyle**
+- **ANSICursor**[^1]
+
+[^1]: Still under development
+
+### ANSIStyle
+
+#### Text Colors
 
 <p align="center">
-  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/ANSIColors.png">
+  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/Colors.png">
 </p>
 
-ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output ![ANSI Colors Example 1](Images/ANSIColorsExample1.png).
+ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output red text.
 
-Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce ![ANSI Colors Example 2](Images/ANSIColorsExample2.png).
+Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce regular text on a blue background.
 
-Since color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output ![ANSI Colors Example 3](Images/ANSIColorsExample3.png).
+Since color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output cyan text on a bright white background.
 
 In addition to the traditional 16 color system, **SwiftANSI** also supports 8-bit colors.  To use the custom color palette, use the `color(_:UInt8)` and `onColor(_:UInt8)` methods for forground and background colors respectively.
 
-### Text Styling
+#### Text Attributes
 
-Similar to text coloring, text styling is also available as a property to `String`.  To style a text, simply follow the `String` with a style name.  For example, `"text".bold` will produce ![ANSI Style Example 1](Images/ANSIStyleExample1.png).
+Similar to text colors, text attributes are also available as a property to `String`.  To style text, simply follow the `String` with a style name.  For example, `"text".bold` will produce bolded text.
 
-Since color and style are both ANSI Attributes, you may also coombine them in a `String`.  For example, `"text".brightYellow.underline` will output ![ANSI Style Example 2](Images/ANSIStyleExample2.png).
+Since colors and attributes are both ANSI Styles, you may also combine them in a `String`.  For example, `"text".brightYellow.underline` will output bright yellow text which is also underlined.
 
 These are the available text stylings:
 
 - bold
 - faint
+- italic
 - underline
 - blink
 - inverse
 
-### Cursor Commands
+### ANSICursor
+
+> Note: ANSICursor is still under development.
 
 In addition to altering text appearance, ANSI escape codes allow us to manipulate the position of the cursor during printing.  The `ANSICursor` class supports numerous static methods that return strings which, when printed, alter the position of the cursor.  These methods include:
 
@@ -109,6 +125,7 @@ All of these methods, other than `setCursorPosition()`, also have an available s
 
 ## Release History
 
+- 0.2.3: Divided **SwiftANSI** into smaller submodules and optimized internal calculations for **ANSIStyle**.
 - 0.2.2: Outsourced logging functionality to another library and made `String` methods more declarative in syntax
 - 0.2.1: Removed functionality not operable on Ubuntu systems and updated documentation
 - 0.2.0: Redesigned ANSI Interface and updated documentation

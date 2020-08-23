@@ -13,117 +13,100 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public extension String {
-    // text styling
-    var bold : String { style(.bold) }
-    var faint : String { style(.faint) }
-    var underline : String { style(.underline) }
-    var blink : String { style(.blink) }
-    var inverse : String { style(.inverse) }
+import ANSICore
+
+public extension String {    
+    // Attributes
+    var bold      : String { apply(Attribute.bold.ansiCode) }
+    var faint     : String { apply(Attribute.faint.ansiCode) }
+    var italic    : String { apply(Attribute.italic.ansiCode) }
+    var underline : String { apply(Attribute.underline.ansiCode) }
+    var blink     : String { apply(Attribute.blink.ansiCode) }
+    var inverse   : String { apply(Attribute.inverse.ansiCode) }
     
-    // applies specified style to String
-    private func style(_ style:Attribute) -> String {
-        guard !isEmpty else { return self }
-        var output = csi + "\(style)m" + self
-        if !hasSuffix(csi + "\(Attribute.default)m") {
-            output.append(csi + "\(Attribute.default)m")
-        }
-        return output
+    // Forground colors
+    var black         : String { apply(Color.black.forground) }
+    var red           : String { apply(Color.red.forground) }
+    var green         : String { apply(Color.green.forground) }
+    var yellow        : String { apply(Color.yellow.forground) }
+    var blue          : String { apply(Color.blue.forground) }
+    var magenta       : String { apply(Color.magenta.forground) }
+    var cyan          : String { apply(Color.cyan.forground) }
+    var white         : String { apply(Color.white.forground) }
+    var brightBlack   : String { apply(Color.black.brightForground) }
+    var brightRed     : String { apply(Color.red.brightForground) }
+    var brightGreen   : String { apply(Color.green.brightForground) }
+    var brightYellow  : String { apply(Color.yellow.brightForground) }
+    var brightBlue    : String { apply(Color.blue.brightForground) }
+    var brightMagenta : String { apply(Color.magenta.brightForground) }
+    var brightCyan    : String { apply(Color.cyan.brightForground) }
+    var brightWhite   : String { apply(Color.white.brightForground) }
+
+    /**
+     Applies a custom color to the string.
+     - Parameter value: The value representing a 8-bit color to apply.
+     - Returns: The string with forground color applied.
+     */
+    func color(_ value: UInt8) -> String {
+        apply(csi + "38;5;\(value)m")
     }
 
-    // text forground coloring
-    var black : String { forgroundColor(.black) }
-    var red : String { forgroundColor(.red) }
-    var green : String { forgroundColor(.green) }
-    var yellow : String { forgroundColor(.yellow) }
-    var blue : String { forgroundColor(.blue) }
-    var magenta : String { forgroundColor(.magenta) }
-    var cyan : String { forgroundColor(.cyan) }
-    var white : String { forgroundColor(.white) }
-    var brightBlack : String { forgroundColor(.black, true) }
-    var brightRed : String { forgroundColor(.red, true) }
-    var brightGreen : String { forgroundColor(.green, true) }
-    var brightYellow : String { forgroundColor(.yellow, true) }
-    var brightBlue : String { forgroundColor(.blue, true) }
-    var brightMagenta : String { forgroundColor(.magenta, true) }
-    var brightCyan : String { forgroundColor(.cyan, true) }
-    var brightWhite : String { forgroundColor(.white, true) }
+    // Background colors
+    var onBlack         : String { apply(Color.black.background) }
+    var onRed           : String { apply(Color.red.background) }
+    var onGreen         : String { apply(Color.green.background) }
+    var onYellow        : String { apply(Color.yellow.background) }
+    var onBlue          : String { apply(Color.blue.background) }
+    var onMagenta       : String { apply(Color.magenta.background) }
+    var onCyan          : String { apply(Color.cyan.background) }
+    var onWhite         : String { apply(Color.white.background) }
+    var onBrightBlack   : String { apply(Color.black.brightBackground) }
+    var onBrightRed     : String { apply(Color.red.brightBackground) }
+    var onBrightGreen   : String { apply(Color.green.brightBackground) }
+    var onBrightYellow  : String { apply(Color.yellow.brightBackground) }
+    var onBrightBlue    : String { apply(Color.blue.brightBackground) }
+    var onBrightMagenta : String { apply(Color.magenta.brightBackground) }
+    var onBrightCyan    : String { apply(Color.cyan.brightBackground) }
+    var onBrightWhite   : String { apply(Color.white.brightBackground) }
 
-    func color(_ value:UInt8) -> String {
-        guard !isEmpty else { return self }
-        var output = csi + "8;5;\(value)m" + self
-        if !hasSuffix(csi + "\(Attribute.default)m") {
-            output.append(csi + "\(Attribute.default)m")
-        }
-        return output
+    /**
+     Applies a custom color to the background of the string.
+     - Parameter value: The value representing a 8-bit color to apply.
+     - Returns: The string with background color applied.
+     */
+    func onColor(_ value: UInt8) -> String {
+        apply(csi + "48;5;\(value)m")
     }
 
-    // applies specified color to forground of String
-    private func forgroundColor(_ color:Color, _ bright:Bool = false) -> String {
-        guard !isEmpty else { return self }
-        var output = csi
-        if bright {
-            output.append("\(color.brightForground)m" + self)
-        } else {
-            output.append("\(color.forground)m" + self)
+    /// Removes all ANSI Styling from the String.
+    var stripStyling: String {
+        guard !isEmpty else {
+            return self
         }
-        if !hasSuffix(csi + "\(Attribute.default)m") {
-            output.append(csi + "\(Attribute.default)m")
-        }
-        return output
-    }
-
-    // text background coloring
-    var onBlack : String { backgroundColor(.black) }
-    var onRed : String { backgroundColor(.red) }
-    var onGreen : String { backgroundColor(.green) }
-    var onYellow : String { backgroundColor(.yellow) }
-    var onBlue : String { backgroundColor(.blue) }
-    var onMagenta : String { backgroundColor(.magenta) }
-    var onCyan : String { backgroundColor(.cyan) }
-    var onWhite : String { backgroundColor(.white) }
-    var onBrightBlack : String { backgroundColor(.black, true) }
-    var onBrightRed : String { backgroundColor(.red, true) }
-    var onBrightGreen : String { backgroundColor(.green, true) }
-    var onBrightYellow : String { backgroundColor(.yellow, true) }
-    var onBrightBlue : String { backgroundColor(.blue, true) }
-    var onBrightMagenta : String { backgroundColor(.magenta, true) }
-    var onBrightCyan :String { backgroundColor(.cyan, true) }
-    var onBrightWhite : String { backgroundColor(.white, true) }
-
-    func onColor(_ value:UInt8) -> String {
-        guard !isEmpty else { return self }
-        var output = csi + "8;5;\(value)m" + self
-        if !hasSuffix(csi + "\(Attribute.default)m") {
-            output.append(csi + "\(Attribute.default)m")
-        }
-        return output
-    }
-
-    // applies specified color to background of String
-    private func backgroundColor(_ color:Color, _ makeBright:Bool = false) -> String {
-        guard !isEmpty else { return self }
-        var output = csi
-        if makeBright {
-            output.append("\(color.brightBackground)m" + self)
-        } else {
-            output.append("\(color.background)m" + self)
-        }
-        if !hasSuffix(csi + "\(Attribute.default)m") {
-            output.append(csi + "\(Attribute.default)m")
-        }
-        return output
-    }
-
-    var stripAttributes : String {
-        guard !isEmpty else { return self }
-        // ANSI Attributes always start with esc and end with m
-        var output = split(separator:esc)
+        
+        var output = split(separator: esc)
         for (index, string) in output.enumerated() {
-            if let end = string.firstIndex(of:"m") {
-                output[index] = string[string.index(after:end)...]
+            if let end = string.firstIndex(of: "m") {
+                output[index] = string[string.index(after: end)...]
             }
         }
         return output.joined()
     }
-}
+
+    /**
+     Applies the specified ANSICode to a String.
+     - Parameter ansiCode: The ANSICode to apply.
+     - Returns: A string with the applied ANSICode.
+     */
+    func apply(_ ansiCode: String) -> String {
+        guard !isEmpty else {
+            return self
+        }
+
+        var output = ansiCode + self
+        if !hasSuffix(Attribute.default.ansiCode) {
+            output.append(Attribute.default.ansiCode)
+        }
+        return output
+    }
+ }
