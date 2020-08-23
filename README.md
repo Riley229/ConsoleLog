@@ -1,6 +1,8 @@
-<h4 align="center">
+<p align="center">
   <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/SwiftANSILogo.png">
-  <br>
+</p>
+
+<h4 align="center">
   A Swift library which provides access to ANSI commands with intuitive and easy to read methods.
   <br>
 </h4>
@@ -10,6 +12,8 @@
    <a href="#documentation">Documentation</a> •
    <a href="#release-history">Release History</a>
 </p>
+
+---
 
 ## Setup
 
@@ -41,13 +45,19 @@ let package = Package(
   <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/ANSIColors.png">
 </p>
 
-ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output ![ANSI Colors Example 1](Images/ANSIColorsExample1.png).  Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce ![ANSI Colors Example 2](Images/ANSIColorsExample2.png).  As color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output ![ANSI Colors Example 3](Images/ANSIColorsExample3.png).
+ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output ![ANSI Colors Example 1](Images/ANSIColorsExample1.png).
+
+Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce ![ANSI Colors Example 2](Images/ANSIColorsExample2.png).
+
+Since color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output ![ANSI Colors Example 3](Images/ANSIColorsExample3.png).
 
 In addition to the traditional 16 color system, **SwiftANSI** also supports 8-bit colors.  To use the custom color palette, use the `color(_:UInt8)` and `onColor(_:UInt8)` methods for forground and background colors respectively.
 
 ### Text Styling
 
-Similar to text coloring, text styling is also available as a property to `String`.  To style a text, simply follow the `String` with a style name.  For example, `"text".bold` will produce ![ANSI Style Example 1](Images/ANSIStyleExample1).  Since color and style are both ANSI Attributes, you may also coombine them in a `String`.  For example, `"text".brightYellow.underline` will output ![ANSI Style Example 2](Images/ANSIStyleExample2).
+Similar to text coloring, text styling is also available as a property to `String`.  To style a text, simply follow the `String` with a style name.  For example, `"text".bold` will produce ![ANSI Style Example 1](Images/ANSIStyleExample1.png).
+
+Since color and style are both ANSI Attributes, you may also coombine them in a `String`.  For example, `"text".brightYellow.underline` will output ![ANSI Style Example 2](Images/ANSIStyleExample2.png).
 
 These are the available text stylings:
 
