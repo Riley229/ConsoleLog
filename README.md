@@ -21,14 +21,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "ConsoleLogDemo"
+    name: "SwiftANSIDemo"
     dependencies: [
-        .package(url: "https://github.com/Riley229/ConsoleLog.git", from: "0.2.2")
+        .package(url: "https://github.com/Riley229/SwiftANSI.git", from: "0.2.2")
     ],
     targets: [
         .target(
-	  name: "ConsoleLogDemo",
-	  dependencies: ["ConsoleLog"]),
+	  name: "SwiftANSIDemo",
+	  dependencies: ["SwiftANSI"]),
     ]
 )
 ```
@@ -38,7 +38,7 @@ let package = Package(
 ### Text Coloring
 
 <p align="center">
-  <img src="https://github.com/Riley229/ConsoleLog/blob/master/Images/ANSIColors.png">
+  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/ANSIColors.png">
 </p>
 
 ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output ![ANSI Colors Example 1](Images/ANSIColorsExample1.png).  Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce ![ANSI Colors Example 2](Images/ANSIColorsExample2.png).  As color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output ![ANSI Colors Example 3](Images/ANSIColorsExample3.png).

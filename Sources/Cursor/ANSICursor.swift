@@ -1,3 +1,5 @@
+public let esc = Character("\u{1B}")  // escape unicode
+
 public class ANSICursor {
     public enum ErasureRule : Int {
         // erases all content from cursor forwards

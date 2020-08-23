@@ -1,5 +1,5 @@
 /*
- ConsoleLog
+ SwiftANSI
  Copyright (C) 2020 Camden Thomson
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 public extension String {
     // text styling
     var bold : String { style(.bold) }
@@ -23,11 +22,11 @@ public extension String {
     var inverse : String { style(.inverse) }
     
     // applies specified style to String
-    private func style(_ style:ANSIAttribute.Style) -> String {
+    private func style(_ style:Attribute) -> String {
         guard !isEmpty else { return self }
-        var output = csi + "\(style.value)m" + self
-        if !hasSuffix(csi + "\(ANSIAttribute.Style.default.value)m") {
-            output.append(csi + "\(ANSIAttribute.Style.default.value)m")
+        var output = csi + "\(style)m" + self
+        if !hasSuffix(csi + "\(Attribute.default)m") {
+            output.append(csi + "\(Attribute.default)m")
         }
         return output
     }
@@ -53,23 +52,23 @@ public extension String {
     func color(_ value:UInt8) -> String {
         guard !isEmpty else { return self }
         var output = csi + "8;5;\(value)m" + self
-        if !hasSuffix(csi + "\(ANSIAttribute.Style.default.value)m") {
-            output.append(csi + "\(ANSIAttribute.Style.default.value)m")
+        if !hasSuffix(csi + "\(Attribute.default)m") {
+            output.append(csi + "\(Attribute.default)m")
         }
         return output
     }
 
     // applies specified color to forground of String
-    private func forgroundColor(_ color:ANSIAttribute.Color, _ bright:Bool = false) -> String {
+    private func forgroundColor(_ color:Color, _ bright:Bool = false) -> String {
         guard !isEmpty else { return self }
         var output = csi
         if bright {
-            output.append("\(color.value.brighten)m" + self)
+            output.append("\(color.brightForground)m" + self)
         } else {
-            output.append("\(color.value)m" + self)
+            output.append("\(color.forground)m" + self)
         }
-        if !hasSuffix(csi + "\(ANSIAttribute.Style.default.value)m") {
-            output.append(csi + "\(ANSIAttribute.Style.default.value)m")
+        if !hasSuffix(csi + "\(Attribute.default)m") {
+            output.append(csi + "\(Attribute.default)m")
         }
         return output
     }
@@ -95,23 +94,23 @@ public extension String {
     func onColor(_ value:UInt8) -> String {
         guard !isEmpty else { return self }
         var output = csi + "8;5;\(value)m" + self
-        if !hasSuffix(csi + "\(ANSIAttribute.Style.default.value)m") {
-            output.append(csi + "\(ANSIAttribute.Style.default.value)m")
+        if !hasSuffix(csi + "\(Attribute.default)m") {
+            output.append(csi + "\(Attribute.default)m")
         }
         return output
     }
 
     // applies specified color to background of String
-    private func backgroundColor(_ color:ANSIAttribute.Color, _ makeBright:Bool = false) -> String {
+    private func backgroundColor(_ color:Color, _ makeBright:Bool = false) -> String {
         guard !isEmpty else { return self }
         var output = csi
         if makeBright {
-            output.append("\(color.backgroundValue.brighten)m" + self)
+            output.append("\(color.brightBackground)m" + self)
         } else {
-            output.append("\(color.backgroundValue)m" + self)
+            output.append("\(color.background)m" + self)
         }
-        if !hasSuffix(csi + "\(ANSIAttribute.Style.default.value)m") {
-            output.append(csi + "\(ANSIAttribute.Style.default.value)m")
+        if !hasSuffix(csi + "\(Attribute.default)m") {
+            output.append(csi + "\(Attribute.default)m")
         }
         return output
     }

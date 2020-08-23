@@ -1,5 +1,5 @@
 /*
- ConsoleLog
+ SwiftANSI
  Copyright (C) 2020 Camden Thomson
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -13,10 +13,17 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/// Handles text styling attributes.
+enum Attribute: UInt8, CustomStringConvertible {
+    /// System default text style.
+    case `default` = 0
+    case bold      = 1
+    case faint     = 2
+    case underline = 4
+    case blink     = 5
+    case inverse   = 7
 
-internal extension UInt8 {
-    // allows us to make `bright` colors for formatting text
-    var brighten : String {
-        "\(self);1"
+    var description: String {
+        "\(rawValue)"
     }
 }
