@@ -13,5 +13,5 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public let esc = Character("\u{1B}")  // escape unicode
-public let csi = "\(esc)[" // control sequence introducer
+public let esc: Character = "\u{1B}"  // escape unicode
+public let csi = "\(esc)["            // control sequence introducer

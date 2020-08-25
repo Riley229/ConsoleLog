@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/Logo.png">
+  <img src="./Images/Logo.png">
 </p>
 
 <h4 align="center">
-  A set of lightweight Swift libraries which provide easy access to ANSI commands with declarative syntax.
+  SwiftANSI is a set of lightweight Swift libraries allowing easy access to ANSI commands with declarative syntax.
   <br>
 </h4>
 
@@ -17,62 +17,42 @@
 
 ## Setup
 
-**SwiftANSI** is distributed as a library through the [Swift Package Manager](https://swift.org/package-manager/).  To use **SwiftANSI** or any of its modules, simply add it as a dependency in your project's `Package.swift` file:
+**SwiftANSI** is distributed as a library through the [Swift Package Manager](https://swift.org/package-manager/).  To use **SwiftANSI** or any of its submodules, simply add the following line to the dependencies in your `Package.swift` file:
 
 ```swift
-// swift-tools-version:5.2
-
-import PackageDescription
-
-let package = Package(
-    name: "Demo"
-    dependencies: [
-        .package(url: "https://github.com/Riley229/SwiftANSI.git", from: "0.2.3")
-    ],
-    targets: [
-        .target(name: "Demo", dependencies: ["SwiftANSI"])
-    ]
-)
+.package(url: "https://github.com/Riley229/SwiftANSI.git", from: "0.2.3")
 ```
 
-If you only want to use one of **SwiftANSI**'s modules, specify the name of the desired module in the targets dependencies:
+Then, add **SwiftANSI** or the desired submodule(s) as a dependency for you target:
 
 ```swift
-.target(name: "Demo", dependencies: ["ANSIStyle"])
+.target(name: "Demo", dependencies: [
+	.product(name: "ANSIGraphics", package: "SwiftANSI")
+])
 ```
 
 ## Documentation
 
-**SwiftANSI** contains the following modules:
+**SwiftANSI** contains the following submodules:
 
-- **ANSIStyle**
-- **ANSICursor**[^1]
+| Submodule                     | Description                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| [ANSIGraphics](#ansigraphics) | Manipulates terminal display attributes through SGR (Select Graphic Rendition) parameters. |
+| [ANSICursor](#ansicursor)     | Provides methods to manipulate cursor position on console.                                 |
 
-[^1]: Still under development
-
-### ANSIStyle
-
-#### Text Colors
+### ANSIGraphics
 
 <p align="center">
-  <img src="https://github.com/Riley229/SwiftANSI/blob/master/Images/Colors.png">
+  <img src="./Images/Colors.png">
 </p>
 
-ANSI Colors are available as a property to `String`.  To color text, simply follow the 'String' with the desired colors name.  For example, `"text".red` will output red text.
+ANSI Attributes are available as an extension to `String`.
 
-Similarly, you can style background text by simply adding the prefix `on` before the color's name.  For example, `"text".onBlue` will produce regular text on a blue background.
+To color text, simply follow the text with the desired color name.  For example, `"test".red` will output red text.  Similarly, if you add the prefix `on` to a color, you can manipulate the background text color.  For instance, `"test".onBrightBlue` will produce text on a bright blue background.  In addition to the traditional 16 color system, **ANSIGraphics** also supports 8-bit colors.  To use custom colors, use the `color(_:UInt8)` and `onColor(_:UInt8)` methods for forground and background colors respectively.
 
-Since color is available as a property to `String`, you can also combine forground and background colors together.  For example, `"text".cyan.onBrightWhite` will output cyan text on a bright white background.
+You can also apply text styles by following the `String` with a style name.  For example, `"text".bold` will produce bolded text.  Attributes can also be chained e.g. `"text".brightYellow.underline` will output bright yellow text which is underlined.
 
-In addition to the traditional 16 color system, **SwiftANSI** also supports 8-bit colors.  To use the custom color palette, use the `color(_:UInt8)` and `onColor(_:UInt8)` methods for forground and background colors respectively.
-
-#### Text Attributes
-
-Similar to text colors, text attributes are also available as a property to `String`.  To style text, simply follow the `String` with a style name.  For example, `"text".bold` will produce bolded text.
-
-Since colors and attributes are both ANSI Styles, you may also combine them in a `String`.  For example, `"text".brightYellow.underline` will output bright yellow text which is also underlined.
-
-These are the available text stylings:
+These are the available text styles (Note: not all systems support these styles):
 
 - bold
 - faint
@@ -83,49 +63,26 @@ These are the available text stylings:
 
 ### ANSICursor
 
-> Note: ANSICursor is still under development.
-
-In addition to altering text appearance, ANSI escape codes allow us to manipulate the position of the cursor during printing.  The `ANSICursor` class supports numerous static methods that return strings which, when printed, alter the position of the cursor.  These methods include:
+**ANSICursor** provides various methods to manipulate the position of the cursor.  These methods are provided through the `Cursor` class as seen below:
 
 ```swift
-static public func cursorUp(_ lines:Int) -> String
-static public func cursorDown(_ lines:Int) -> String
-static public func cursorForward(_ lines:Int) -> String
-static public func cursorBackward(_ lines:Int) -> String
+static public func moveUp(_ lines: Int = 1)
+static public func moveDown(_ lines: Int = 1)
+static public func moveForward(_ lines: Int = 1)
+static public func moveBackward(_ lines: Int = 1)
 
-static public func cursorUpLine(_ lines:Int) -> String
-static public func cursorDownLine(_ lines:Int) -> String
+static public func moveUpLine(_ lines: Int = 1)
+static public func moveDownLine(_ lines: Int = 1)
 
-static public func setCursorPosition(line:Int, column:Int) -> String
-
-static public func clearScreen(_ rule:ErasureRule) -> String
-static public func clearLine(_ rule:ErasureRule) -> String
-
-static public func scrollUp(_ lines:Int) -> String
-static public func scrollDown(_ lines:Int) -> String
-
-static public var saveCursorPosition : String
-static public var restoreCursorPosition : String
+static public func setPosition(line: Int, column: Int)
+static public func savePosition()
+static public func restorePosition()
 ```
-
-When calling `clearScreen()` or `clearLine()`, you must provide an `ErasureRule`:
-
-```swift
-public enum ErasureRule {
-       // erases all content from cursor forwards
-       case forward
-       // erases all content from cursor backwards
-       case backward
-       // erases all content regardless of cursor position
-       case all
-}
-```
-
-All of these methods, other than `setCursorPosition()`, also have an available static variable which performs the same action, filling in any arguments with `1`, or `.all` for erasure methods.
 
 ## Release History
 
-- 0.2.3: Divided **SwiftANSI** into smaller submodules and optimized internal calculations for **ANSIStyle**.
+- 0.3.0: Remade **ANSICursor** as a more lightweight library and made major changes to README
+- 0.2.3: Divided **SwiftANSI** into smaller modules and optimized internal calculations for ANSIStyle
 - 0.2.2: Outsourced logging functionality to another library and made `String` methods more declarative in syntax
 - 0.2.1: Removed functionality not operable on Ubuntu systems and updated documentation
 - 0.2.0: Redesigned ANSI Interface and updated documentation

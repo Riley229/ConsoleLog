@@ -16,13 +16,13 @@
 import ANSICore
 
 public extension String {    
-    // Attributes
-    var bold      : String { apply(Attribute.bold.ansiCode) }
-    var faint     : String { apply(Attribute.faint.ansiCode) }
-    var italic    : String { apply(Attribute.italic.ansiCode) }
-    var underline : String { apply(Attribute.underline.ansiCode) }
-    var blink     : String { apply(Attribute.blink.ansiCode) }
-    var inverse   : String { apply(Attribute.inverse.ansiCode) }
+    // Styles
+    var bold      : String { apply(Style.bold.ansiCode) }
+    var faint     : String { apply(Style.faint.ansiCode) }
+    var italic    : String { apply(Style.italic.ansiCode) }
+    var underline : String { apply(Style.underline.ansiCode) }
+    var blink     : String { apply(Style.blink.ansiCode) }
+    var inverse   : String { apply(Style.inverse.ansiCode) }
     
     // Forground colors
     var black         : String { apply(Color.black.forground) }
@@ -78,8 +78,9 @@ public extension String {
         apply(csi + "48;5;\(value)m")
     }
 
-    /// Removes all ANSI Styling from the String.
-    var stripStyling: String {
+    /// Removes all ANSI Attributes from the String.
+    /// - Returns: The stripped-down string.
+    func stripAttributes() -> String {
         guard !isEmpty else {
             return self
         }
@@ -104,8 +105,8 @@ public extension String {
         }
 
         var output = ansiCode + self
-        if !hasSuffix(Attribute.default.ansiCode) {
-            output.append(Attribute.default.ansiCode)
+        if !hasSuffix(Style.default.ansiCode) {
+            output.append(Style.default.ansiCode)
         }
         return output
     }

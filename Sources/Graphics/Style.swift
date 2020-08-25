@@ -15,8 +15,8 @@
 
 import ANSICore
 
-/// Handles text attribute codes.
-enum Attribute: UInt8 {
+/// Handles text style codes.
+enum Style: UInt8 {
     /// System default text style.
     case `default` = 0
     case bold      = 1
@@ -26,7 +26,7 @@ enum Attribute: UInt8 {
     case blink     = 5
     case inverse   = 7
 
-    /// The ANSI attribute code.
+    /// The ANSI style code.
     var ansiCode: String {
         csi + "\(rawValue)m"
     }

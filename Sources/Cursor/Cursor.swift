@@ -15,137 +15,79 @@
 
 import ANSICore
 
-public class ANSICursor {
-    public enum ErasureRule : Int {
-        // erases all content from cursor forwards
-        case forward
-        // erases all content from cursor backwards
-        case backward
-        // erases all content regardless of cursor position
-        case all
-
-        internal var value : Int {
-            self.rawValue
-        }
+/// Stores all of the methods for cursor manipulation.
+public class Cursor {
+    /// Moves cursor up while maintaining column position.
+    /// - Parameter lines: The number of lines to move up (default is 1).
+    static public func moveUp(_ lines: Int = 1) {
+        apply(command: "A", arguments: lines)
     }
 
-    // moves the cursor up the specified number of lines while maintaining column position
-    static public var cursorUp : String {
-        cursorEscapeSequence("A", 1)
-    }
-    
-    static public func cursorUp(_ lines:Int) -> String {
-        cursorEscapeSequence("A", lines)
+    /// Moves cursor down while maintaining column position.
+    /// - Parameter lines: The number of lines to move down (default is 1).
+    static public func moveDown(_ lines: Int = 1) {
+        apply(command: "B", arguments: lines)
     }
 
-    // moves the cursor down the specified number of lines while maintaining column position
-    static public var cursorDown : String {
-        cursorEscapeSequence("B", 1)
+    /// Moves cursor forward while maintining line position.
+    /// - Parameter columns: The number of columns to move forward (default is 1).
+    static public func moveForward(_ columns: Int = 1) {
+        apply(command: "C", arguments: columns)
     }
 
-    static public func cursorDown(_ lines:Int) -> String {
-        cursorEscapeSequence("B", lines)
+    /// Moves cursor backwards while maintaining line position.
+    /// - Parameter: columns: The number of columns to move backwards (default is 1).
+    static public func moveBackward(_ columns: Int = 1) {
+        apply(command: "D", arguments: columns)
     }
 
-    // moves the cursor forward the specified number of columns while maintining line position
-    static public var cursorForward : String {
-        cursorEscapeSequence("C", 1)
+    /// Moves cursor up while resetting column position to 0.
+    /// - Parameter lines: The number of lines to move up (default is 1).
+    static public func moveUpLine(_ lines: Int = 1) {
+        apply(command: "E", arguments: lines)
     }
 
-    static public func cursorForward(_ columns:Int) -> String {
-        cursorEscapeSequence("C", columns)
+    /// Moves cursor down while resetting column position to 0.
+    /// - Parameter lines: The number of lines to move down (default is 1).
+    static public func moveDownLine(_ lines: Int = 1) {
+        apply(command: "F", arguments: lines)
     }
 
-    // moves the cursor backwards the specified number of columns while maintaining line position
-    static public var cursorBackward : String {
-        cursorEscapeSequence("D", 1)
+    /**
+     Moves cursor to specified line and column.
+     - Parameters:
+       - line: The line to move to.
+       - column: The column to move to.
+     */
+    public static func setPosition(line: Int, column: Int) {
+        apply(command: "H", arguments: line, column)
     }
 
-    static public func cursorBackward(_ columns:Int) -> String {
-        cursorEscapeSequence("D", columns)
+    /// Saves the current cursor position.
+    static public func savePosition() {
+        apply(command: "s")
     }
 
-    // moves the cursor up the specified number of lines and to column position 0
-    static public var cursorUpLine : String {
-        cursorEscapeSequence("E", 1)
+    /// Restores the saved cursor position.
+    static public func restorePosition() {
+        apply(command: "u")
     }
 
-    static public func cursorUpLine(_ lines:Int) -> String {
-        cursorEscapeSequence("E", lines)
-    }
-
-    // moves the cursor down the specified number of lines and to column position 0
-    static public var cursorDownLine : String {
-        cursorEscapeSequence("F", 1)
-    }
-
-    static public func cursorDownLine(_ lines:Int) -> String {
-        cursorEscapeSequence("F", lines)
-    }
-
-    // moves the cursor to the specified line and column
-    public static func setCursorPosition(line:Int, column:Int) -> String {
-        cursorEscapeSequence("H", line, column)
-    }
-
-    // clears the screen according to the specified erasure rule
-    static public var clearScreen : String {
-        cursorEscapeSequence("J", ErasureRule.all.value)
-    }
-
-    static public func clearScreen(_ rule:ErasureRule) -> String {
-        cursorEscapeSequence("J", rule.value)
-    }
-
-    // clears the line according to the specified erasure rule
-    static public var clearLine : String {
-        cursorEscapeSequence("K", ErasureRule.all.value)
-    }
-
-    static public func clearLine(_ rule:ErasureRule) -> String {
-        cursorEscapeSequence("K", rule.value)
-    }
-
-    // scrolls up the specified number of lines; rows are added to the top of the screen and removed from the bottom
-    static public var scrollUp : String {
-        cursorEscapeSequence("S", 1)
-    }
-
-    static public func scrollUp(_ lines:Int) -> String {
-        cursorEscapeSequence("S", lines)
-    }
-
-    // scrolls down the specified number of lines; rows are added at the bottom of the screen and removed from the top
-    static public var scrollDown : String {
-        cursorEscapeSequence("T", 1)
-    }
-
-    static public func scrollDown(_ lines:Int) -> String {
-        cursorEscapeSequence("T", lines)
-    }
-
-    // saves the current cursor position
-    static public var saveCursorPosition : String {
-        cursorEscapeSequence("s")
-    }
-
-    // restores the saved cursor position
-    static public var restoreCursorPosition : String {
-        cursorEscapeSequence("u")
-    }
-
-    // builds string for cursor commands with given arguments
-    private static func cursorEscapeSequence(_ char:Character, _ arguments:Int...) -> String {
-        var sequence = String()
-        sequence.append(esc)
-        sequence.append("[")
+   /**
+    Builds string for cursor commands and applies to terminal.
+    - Parameters:
+      - command: The character representing the desired command
+      - arguments: The arguments for desired command.
+    */
+    static func apply(command: Character, arguments: Int...) {
+        var sequence = csi
         for (index, argument) in arguments.enumerated() {
             if index != 0 {
                 sequence.append(";")
             }
             sequence.append("\(argument)")
         }
-        sequence.append(char)
-        return sequence
+        sequence.append(command)
+        print(sequence, terminator: "")
     }
 }
