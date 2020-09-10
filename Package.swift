@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -10,8 +10,8 @@ let package = Package(
       .library(name: "SwiftANSI", targets: ["Graphics", "Cursor"])
     ],
     targets: [
-      .target(name: "Graphics", dependencies: ["Core"]),
-      .target(name: "Cursor", dependencies: ["Core"]),
-      .target(name: "Core")
+      .target(name: "Graphics", dependencies: ["ANSICore"]),
+      .target(name: "Cursor", dependencies: ["ANSICore"]),
+      .target(name: "ANSICore")
     ]
 )
